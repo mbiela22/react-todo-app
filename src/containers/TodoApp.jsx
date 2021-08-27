@@ -11,24 +11,25 @@ export default function TodoApp() {
     const {activeFilter} = useFilter();
     const {allTasks, completedTasks, activeTasks} = useTasks();
 
-    const isTaskExists = allTasks && allTasks.length > 0;
+    const isTaskExists = allTasks.length > 0;
 
-    function filterTaskByActiveFilter(activeFilter) {
-        switch (activeFilter) {
-            case 'completed':
-                return completedTasks;
-            case 'active':
-                return activeTasks;
-            default:
-                return allTasks;
-        }
+    let tasks;
+    switch (activeFilter) {
+        case 'completed':
+            tasks = completedTasks;
+            break;
+        case 'active':
+            tasks = activeTasks;
+            break;
+        default:
+            tasks = allTasks;
     }
 
     return (
         <div className="todo-wrapper">
             <Title title="Todo App"/>
             <AddTodoInput/>
-            {isTaskExists && <TodoList tasks={filterTaskByActiveFilter(activeFilter)}/>}
+            {isTaskExists && <TodoList tasks={tasks}/>}
             {isTaskExists && <Footer activeTaskAmount={activeTasks.length}/>}
         </div>
     )
